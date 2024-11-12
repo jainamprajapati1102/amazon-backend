@@ -2,7 +2,7 @@
   "name": "amzon-backend",
   "version": "1.0.0",
   "description": "In this app i build robust backend application for my website",
-  "main": "app.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

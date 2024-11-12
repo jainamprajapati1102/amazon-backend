@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { UserRolesEnum, AvailableUserRoles } from "../../constants.js";
 const profileSchema = new mongoose.Schema(
   {
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "seller",
+    },
     mobileno: {
       type: Number,
       trim: true,
@@ -21,6 +25,10 @@ const profileSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+    },
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Selleradd",
     },
   },
   { timestamps: true }

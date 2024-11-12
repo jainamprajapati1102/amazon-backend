@@ -9,6 +9,14 @@ const sellerSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
+    storename: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
     email: {
       type: String,
       required: true,
@@ -26,14 +34,12 @@ const sellerSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
     },
-    address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "address",
-    },
-    produts: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "product",
-    },
+    produts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "product",
+      },
+    ],
   },
   { timestamps: true }
 );
