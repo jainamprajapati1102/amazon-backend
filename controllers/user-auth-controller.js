@@ -39,10 +39,7 @@ export const loginController = async (req, res) => {
     const { email, password } = req.body;
     const chqUser = await userModel.findOne({ email });
     if (!chqUser) return res.send("something went wrong");
-
     const decodepass = await bcrypt.compare(password, chqUser.password);
-    dbgr(decodepass);
-
     if (decodepass) {
       const token = generateToken(chqUser);
       res.cookie("token", token);
@@ -56,25 +53,16 @@ export const loginController = async (req, res) => {
 };
 
 export const profileGateController = async (req, res) => {
-  console.log("hii aaye pe aa gaya");
-
   try {
     const getUser = await userModel
       .findOne({ email: req.user.email })
       .populate("address");
-
-    console.log("prof. get ", getUser);
-
-    dbgr(getUser);
-
     res.json(getUser);
   } catch (error) {}
 };
 export const profileUpdateController = async (req, res) => {
   try {
     const { addLine1, addLine2, city, state, pincode } = req.body;
-    dbgr(req.body);
-
     const address = await addressModel.create({
       addLine1,
       addLine2,
@@ -83,8 +71,6 @@ export const profileUpdateController = async (req, res) => {
       pincode,
       user: req.user.userid,
     });
-    dbgr(address);
-
     const user = await userModel.findById({ _id: req.user.userid });
     if (address) {
       const updateUser = await userModel.findByIdAndUpdate(
@@ -92,7 +78,6 @@ export const profileUpdateController = async (req, res) => {
         { address: address._id },
         { new: true }
       );
-      dbgr(updateUser);
     }
     res.send("address updated");
   } catch (error) {

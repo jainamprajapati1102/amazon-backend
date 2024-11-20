@@ -72,3 +72,57 @@ export const logoutController = async (req, res) => {
   //     dbgr("err from login user-->", error);
   //   }
 };
+export const getprofileController = async (req, res) => {
+  //   try {
+  //     const { email, password } = req.body;
+  //     const chqUser = await userModel.findOne({ email });
+  //     if (!chqUser) return res.send("something went wrong");
+  //     const decodepass = await bcrypt.compare(password, chqUser.password);
+  //     dbgr(decodepass);
+  //     if (decodepass) {
+  //       const token = generateToken(chqUser);
+  //       res.cookie("token", token);
+  //       res.status(200).send("you can login!!");
+  //     } else {
+  //       res.send("password was incorrect!!");
+  //     }
+  //   } catch (error) {
+  //     dbgr("err from login user-->", error);
+  //   }
+};
+export const updateprofileController = async (req, res) => {
+  //   try {
+  //     const { email, password } = req.body;
+  //     const chqUser = await userModel.findOne({ email });
+  //     if (!chqUser) return res.send("something went wrong");
+  //     const decodepass = await bcrypt.compare(password, chqUser.password);
+  //     dbgr(decodepass);
+  //     if (decodepass) {
+  //       const token = generateToken(chqUser);
+  //       res.cookie("token", token);
+  //       res.status(200).send("you can login!!");
+  //     } else {
+  //       res.send("password was incorrect!!");
+  //     }
+  //   } catch (error) {
+  //     dbgr("err from login user-->", error);
+  //   }
+};
+export const productController = async (req, res) => {
+  //   try {
+  //     const { email, password } = req.body;
+  //     const chqUser = await userModel.findOne({ email });
+  //     if (!chqUser) return res.send("something went wrong");
+  //     const decodepass = await bcrypt.compare(password, chqUser.password);
+  //     dbgr(decodepass);
+  //     if (decodepass) {
+  //       const token = generateToken(chqUser);
+  //       res.cookie("token", token);
+  //       res.status(200).send("you can login!!");
+  //     } else {
+  //       res.send("password was incorrect!!");
+  //     }
+  //   } catch (error) {
+  //     dbgr("err from login user-->", error);
+  //   }
+};
