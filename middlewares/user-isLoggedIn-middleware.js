@@ -2,11 +2,11 @@ import jwt from "jsonwebtoken";
 import { TOKEN_ACCESS_KEY } from "../constants.js";
 export default (req, res, next) => {
   try {
-    console.log(req.cookies.token);
+    console.log(req.cookies.user_token);
 
-    if (!req.cookies.token) return res.send("You need login first.");
+    if (!req.cookies.user_token) return res.send("You need login first.");
 
-    const user = jwt.verify(req.cookies.token, TOKEN_ACCESS_KEY);
+    const user = jwt.verify(req.cookies.user_token, TOKEN_ACCESS_KEY);
     console.log(user);
 
     req.user = user;

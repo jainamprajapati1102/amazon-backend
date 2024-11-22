@@ -12,4 +12,5 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRouter);
 app.use("/seller", sellerRouter);
+// app.use("/admin", adminRouter);
 app.listen(5000);

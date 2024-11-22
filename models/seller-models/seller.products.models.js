@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const productSchema = mongoose.Schema({
-  prductname: {
+  name: {
     type: String,
     required: true,
     trim: true,
@@ -15,20 +15,29 @@ const productSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "seller",
   },
-  MRP: {
+  image: {
+    type: String,
+    required: true,
+  },
+  // mrp: {
+  //   type: Number,
+  //   trim: true,
+  //   required: true,
+  // },
+  // discount: {
+  //   type: Number,
+  //   trim: true,
+  //   required: true,
+  // },
+  price: {
     type: Number,
     trim: true,
     required: true,
   },
-  discount: {
+  stock: {
     type: Number,
-    trim: true,
     required: true,
-  },
-  sellprice: {
-    type: Number,
-    trim: true,
-    required: true,
+    default: 0,
   },
 });
 

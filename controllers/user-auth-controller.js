@@ -25,7 +25,7 @@ export const registerController = async (req, res) => {
           mobileno,
         });
         const token = generateToken(user);
-        res.cookie("token", token);
+        res.cookie("user_token", token);
         res.send(user);
       });
     });
@@ -42,7 +42,7 @@ export const loginController = async (req, res) => {
     const decodepass = await bcrypt.compare(password, chqUser.password);
     if (decodepass) {
       const token = generateToken(chqUser);
-      res.cookie("token", token);
+      res.cookie("user_token", token);
       res.status(200).send("you can login!!");
     } else {
       res.send("password was incorrect!!");
@@ -86,6 +86,8 @@ export const profileUpdateController = async (req, res) => {
   }
 };
 export const logoutController = (req, res) => {
-  res.cookie("token", "");
+  res.cookie("user_token", "");
   res.redirect("/user/");
 };
+
+export const deleteAccountController = async (req, res) => {};

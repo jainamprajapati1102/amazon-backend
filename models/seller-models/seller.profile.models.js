@@ -6,6 +6,37 @@ const profileSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "seller",
     },
+    addLine1: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
+    addLine2: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
+    city: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
+    state: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
+    pincode: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
     mobileno: {
       type: Number,
       trim: true,
@@ -25,10 +56,6 @@ const profileSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-    },
-    address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Selleradd",
     },
   },
   { timestamps: true }

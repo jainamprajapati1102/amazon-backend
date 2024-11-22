@@ -38,8 +38,13 @@ const sellerSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "product",
+        default: null,
       },
     ],
+    profile: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Profile",
+    },
   },
   { timestamps: true }
 );
