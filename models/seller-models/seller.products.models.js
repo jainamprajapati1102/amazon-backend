@@ -13,7 +13,7 @@ const productSchema = mongoose.Schema({
   },
   seller: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "seller",
+    ref: "Seller",
   },
   image: {
     type: String,
