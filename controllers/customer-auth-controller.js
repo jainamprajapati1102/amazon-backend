@@ -1,5 +1,5 @@
-import { userModel } from "../models/user-models/user.model.js";
-import { addressModel } from "../models/user-models/user.address.model.js";
+import { customerModel } from "../models/customer-models/customer.model.js";
+import { addressModel } from "../models/customer-models/customer.address.model.js";
 import { productModel } from "../models/seller-models/seller.products.models.js";
 import * as bcrypt from "bcrypt";
 
@@ -14,14 +14,14 @@ export const homeController = (req, res) => {
 export const registerController = async (req, res) => {
   try {
     const { name, email, password, mobileno } = req.body;
-    const existedUser = await userModel.findOne({ email });
+    const existedUser = await customerModel.findOne({ email });
     if (existedUser)
       return res.send("you are already registered. Plz login....");
 
     bcrypt.genSalt(10, function (err, salt) {
       bcrypt.hash(password, salt, async (err, hash) => {
         if (err) return res.send(err);
-        const user = await userModel.create({
+        const user = await customerModel.create({
           name,
           email,
           password: hash,
@@ -40,7 +40,7 @@ export const registerController = async (req, res) => {
 export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const chqUser = await userModel.findOne({ email });
+    const chqUser = await customerModel.findOne({ email });
     if (!chqUser) return res.send("something went wrong");
     const decodepass = await bcrypt.compare(password, chqUser.password);
     if (decodepass) {
@@ -57,7 +57,7 @@ export const loginController = async (req, res) => {
 
 export const profileGateController = async (req, res) => {
   try {
-    const getUser = await userModel
+    const getUser = await customerModel
       .findOne({ email: req.user.email })
       .populate("address");
     res.json(getUser);
@@ -73,7 +73,7 @@ export const profileUpdateController = async (req, res) => {
         { addLine1, addLine2, city, state, pincode },
         { new: true }
       );
-      const imgupdate = await userModel.findByIdAndUpdate(
+      const imgupdate = await customerModel.findByIdAndUpdate(
         { _id: req.user.userid },
         { image: req.file.filename },
         { new: true }
@@ -87,10 +87,10 @@ export const profileUpdateController = async (req, res) => {
         pincode,
         user: req.user.userid,
       });
-      const user = await userModel.findById({ _id: req.user.userid });
+      const user = await customerModel.findById({ _id: req.user.userid });
 
       if (address) {
-        const updateUser = await userModel.findByIdAndUpdate(
+        const updateUser = await customerModel.findByIdAndUpdate(
           { _id: req.user.userid },
           { address: address._id, image: req.file.filename },
           { new: true }
@@ -122,7 +122,9 @@ export const pr = async (req, res) => {
 
 export const deleteAccountController = async (req, res) => {
   try {
-    const delUser = await userModel.findByIdAndDelete({ _id: req.user.userid });
+    const delUser = await customerModel.findByIdAndDelete({
+      _id: req.user.userid,
+    });
     res.cookie("user_token", "");
     res.send("user is deleted");
   } catch (error) {
@@ -130,10 +132,9 @@ export const deleteAccountController = async (req, res) => {
   }
 };
 
-export const order = async (req, res) => {
+export const orderController = async (req, res) => {
   try {
-    
-  } catch (error) {
-    
-  }
+    console.log(req.params);
+    const { status, address } = req.body;
+  } catch (error) {}
 };

@@ -165,11 +165,10 @@ export const fakeseller = (req, res) => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       phone: faker.phone.number(), // Correct method for phone number
-      address: {
+      address: { 
         street: faker.location.streetAddress(), // New method for street address
         city: faker.location.city(), // New method for city
         state: faker.location.state(), // New method for state
-
         zip: faker.location.zipCode(), // New method for zip code
         country: faker.location.country(), // New method for country
       },
@@ -198,3 +197,12 @@ export const fakeseller = (req, res) => {
   //   generateSeller(idx + 1)
   // ));
 };
+
+
+// export const takeOrderController=async(req,res)=>{
+//   try {
+    
+//   } catch (error) {
+    
+//   }
+// }
