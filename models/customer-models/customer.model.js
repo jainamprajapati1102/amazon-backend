@@ -1,46 +1,42 @@
 import mongoose from "mongoose";
 import { UserRolesEnum, AvailableUserRoles } from "../../constants.js";
-const userSchema = new mongoose.Schema(
+const customerSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      lowercase: true,
-      trim: true,
-      index: true,
+    fullname: {
+      firstname: { type: String, required: true },
+      lastname: { type: String, required: true },
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: false },
+    phone: { type: String },
+    address: {
+      addLine1: { type: String },
+      addLine2: { type: String },
+      city: { type: String },
+      country: { type: String },
+      pincode: { type: String },
+      state: { type: String },
     },
+    profileImage: { type: String },
+    orders: [{ orderId: String, date: Date }],
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    cart: [
+      {
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        quantity: { type: Number, default: 1 },
+      },
+    ],
     role: {
       type: String,
       enum: AvailableUserRoles,
       default: UserRolesEnum.USER,
       required: true,
     },
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-    },
-    address: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "address",
-    },
-    mobileno: {
-      type: Number,
-      trim: true,
-      required: true,
-    },
-    image: {
-      type: String,
-      default: null,
-    },
+    isVerified: { type: Boolean, default: false },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
+    lastLogin: { type: Date },
   },
   { timestamps: true }
 );
-
-export const customerModel = mongoose.model("Customer", userSchema);
+export const customerModel = mongoose.model("Customer", customerSchema);

@@ -1,8 +1,7 @@
 import { customerModel } from "../models/customer-models/customer.model.js";
-import { addressModel } from "../models/customer-models/customer.address.model.js";
 import { productModel } from "../models/seller-models/seller.products.models.js";
 import * as bcrypt from "bcrypt";
-
+import { orderModel } from "../models/customer-models/customer-order-model.js";
 import { generateToken } from "../utils/generateToken.js";
 import debug from "debug";
 
@@ -13,19 +12,19 @@ export const homeController = (req, res) => {
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, mobileno } = req.body;
+    const { fullname, email, password } = req.body;
     const existedUser = await customerModel.findOne({ email });
     if (existedUser)
       return res.send("you are already registered. Plz login....");
-
     bcrypt.genSalt(10, function (err, salt) {
       bcrypt.hash(password, salt, async (err, hash) => {
-        if (err) return res.send(err);
+        if (err) {
+          return res.send(err);
+        }
         const user = await customerModel.create({
-          name,
+          fullname,
           email,
           password: hash,
-          mobileno,
         });
         const token = generateToken(user);
         res.cookie("user_token", token);
@@ -40,8 +39,13 @@ export const registerController = async (req, res) => {
 export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const chqUser = await customerModel.findOne({ email });
-    if (!chqUser) return res.send("something went wrong");
+    const chqUser = await customerModel.findOne(
+      { email },
+      "email password role -_id"
+    );
+    if (!chqUser) {
+      return res.send("something went wrong");
+    }
     const decodepass = await bcrypt.compare(password, chqUser.password);
     if (decodepass) {
       const token = generateToken(chqUser);
@@ -57,46 +61,23 @@ export const loginController = async (req, res) => {
 
 export const profileGateController = async (req, res) => {
   try {
-    const getUser = await customerModel
-      .findOne({ email: req.user.email })
-      .populate("address");
+    const getUser = await customerModel.findOne(
+      { email: req.user.email },
+      "-_id -__v"
+    );
     res.json(getUser);
   } catch (error) {}
 };
 export const profileUpdateController = async (req, res) => {
   try {
-    const { addLine1, addLine2, city, state, pincode, image } = req.body;
-    const addressfind = await addressModel.findOne({ user: req.user.userid });
-    if (addressfind) {
-      const updateUser = await addressModel.findOneAndUpdate(
-        { user: req.user.userid },
-        { addLine1, addLine2, city, state, pincode },
-        { new: true }
-      );
-      const imgupdate = await customerModel.findByIdAndUpdate(
-        { _id: req.user.userid },
-        { image: req.file.filename },
-        { new: true }
-      );
-    } else {
-      const address = await addressModel.create({
-        addLine1,
-        addLine2,
-        city,
-        state,
-        pincode,
-        user: req.user.userid,
-      });
-      const user = await customerModel.findById({ _id: req.user.userid });
+    const { address, profileImage, fullname, email } = req.body;
 
-      if (address) {
-        const updateUser = await customerModel.findByIdAndUpdate(
-          { _id: req.user.userid },
-          { address: address._id, image: req.file.filename },
-          { new: true }
-        );
-      }
-    }
+    const imgupdate = await customerModel.findByIdAndUpdate(
+      { _id: req.user.userid },
+      { profileImage: req.file.filename, address, fullname, email },
+      { new: true }
+    );
+
     res.status(200).send("address updated");
   } catch (error) {
     dbgr(error);
@@ -134,7 +115,29 @@ export const deleteAccountController = async (req, res) => {
 
 export const orderController = async (req, res) => {
   try {
-    console.log(req.params);
-    const { status, address } = req.body;
-  } catch (error) {}
+    const {
+      status,
+      address,
+      orderprice,
+      paymentProvider,
+      paymentId,
+      isPaymentDone,
+    } = req.body;
+    console.log(req.body);
+    const order = await orderModel.create({
+      status,
+      address,
+      orderprice,
+      paymentProvider,
+      paymentId,
+      isPaymentDone,
+    });
+
+    const cus = await customerModel.findById({ _id: req.user.userid });
+    cus.order.push(order._id);
+    await cus.save();
+    res.json({ order, cus });
+  } catch (error) {
+    res.send(error.message);
+  }
 };

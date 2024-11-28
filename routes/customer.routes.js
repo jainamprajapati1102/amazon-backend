@@ -20,30 +20,9 @@ router.get("/", homeController); //for the landing page
 router.post("/register", registerController); // create the user
 router.post("/login", loginController); //for the user login
 router.get("/logout", logoutController); //for the user login
-router.put(
-  "/profileupdate",
-  userIsLoggedInMiddleware,
-  roleMiddleware(["USER"]),
-  upload.single("image"),
-  profileUpdateController
-); //user can update him profile
-router.get(
-  "/profileget",
-  userIsLoggedInMiddleware,
-  roleMiddleware(["USER"]),
-  profileGateController
-); //user can seen him profile
+router.put("/profileupdate",userIsLoggedInMiddleware,roleMiddleware(["USER"]),upload.single("profileImage"),profileUpdateController); //user can update him profile
+router.get("/profileget",userIsLoggedInMiddleware,roleMiddleware(["USER"]),profileGateController); //user can seen him profile
 router.get("/pr", pr); //user can seen him profile
-router.post(
-  "/order/:productid",
-  userIsLoggedInMiddleware,
-  roleMiddleware(["USER"]),
-  orderController
-); //user can seen him profile
-
-router.delete(
-  "/deleteaccount",
-  userIsLoggedInMiddleware,
-  deleteAccountController
-); // user.js
-export default router;
+router.post("/order/:productid",userIsLoggedInMiddleware,roleMiddleware(["USER"]),orderController); //user can order 
+router.delete("/deleteaccount",userIsLoggedInMiddleware,deleteAccountController); 
+export default router; 

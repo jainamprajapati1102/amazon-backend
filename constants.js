@@ -8,3 +8,9 @@ export const UserRolesEnum = {
 };
 
 export const AvailableUserRoles = Object.values(UserRolesEnum);
+
+export const PaymentProvidersEnum = {
+  PAYPAL: "PAYPAL",
+  ROZAR_PAY: "ROZAR_PAY",
+};
+export const AvailablePaymentProviders=Object.values(PaymentProvidersEnum);
